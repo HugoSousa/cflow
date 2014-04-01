@@ -116,7 +116,7 @@ public class SimplePCRE{  public static void main(String args [])  {    Syst
 	(	  < COMMA >   {hasComma = true;}
 	  (	    t2 = < NUMBER >
 	  )?
-	)?
+	)? 
 	  {		if (t2 != null)		{			jjtThis.jjtSetValue(new ElementCounterRange(Integer.parseInt(t1.image),
 			Integer.parseInt(t2.image)));
 		} else if (hasComma)		{			jjtThis.jjtSetValue(new ElementCounterMinimum(Integer.parseInt(t1.image)));
