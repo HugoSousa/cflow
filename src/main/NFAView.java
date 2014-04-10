@@ -1,4 +1,4 @@
-package parser;
+package main;
 
 import java.awt.Dimension;
 
@@ -12,9 +12,9 @@ import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
 
 public class NFAView {
-	Graph<Integer, String> graph;
+	Graph<Integer, EdgeString> graph;
 
-	public NFAView(Graph<Integer, String> g) {
+	public NFAView(Graph<Integer, EdgeString> g) {
 		this.graph = g;
 
 	}
@@ -24,17 +24,20 @@ public class NFAView {
 
 		NFAView graph = new NFAView(cflow.getGraph());
 
-		Layout<Integer, String> layout = new CircleLayout<Integer, String>(
+		Layout<Integer, EdgeString> layout = new CircleLayout<Integer, EdgeString>(
 				graph.graph);
 		layout.setSize(new Dimension(300, 300));
 
-		BasicVisualizationServer<Integer, String> vv = new BasicVisualizationServer<Integer, String>(
+		BasicVisualizationServer<Integer, EdgeString> vv = new BasicVisualizationServer<Integer, EdgeString>(
 				layout);
 		vv.setPreferredSize(new Dimension(350, 350));
 		vv.getRenderContext().setEdgeLabelTransformer(
-				new Transformer<String, String>() {
-					public String transform(String e) {
-						return e;
+				new Transformer<EdgeString, String>() {
+
+					@Override
+					public String transform(EdgeString arg0) {
+						// TODO Auto-generated method stub
+						return arg0.getValue();
 					}
 				});
 
