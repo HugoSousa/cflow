@@ -11,7 +11,7 @@ public class ElementCounterMinimum {
 		this.value = v;
 	}
 
-	int getValue() {
+	public int getValue() {
 		return value;
 	}
 

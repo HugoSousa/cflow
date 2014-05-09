@@ -1,7 +1,10 @@
 package main;
 
-
 import java.util.*;
+
+import parser.ElementCounterExact;
+import parser.ElementCounterMinimum;
+import parser.ElementCounterRange;
 import parser.SimpleNode;
 import parser.SimplePCRE;
 import parser.SimplePCRETreeConstants;
@@ -73,18 +76,13 @@ public class Cflow {
 
 				SimpleNode n = (SimpleNode) actual.jjtGetChild(i);
 
-				if (i != nChild - 1 && n.getId() != SimplePCRETreeConstants.JJTOPTIONAL) {
+				if (i != nChild - 1) {
 					g.addVertex((Integer) vIndex++);
 					seguinte = vIndex - 1;
 				}
 
 				if (i == nChild - 1) {
-					
-					if (g.getIncidentEdges(end).size() == 0 && (n.getId() == SimplePCRETreeConstants.JJTOPTIONAL)){
-						g.removeVertex(end);
-					}else{
-						seguinte = end;
-					}
+					seguinte = end;
 				}
 
 				groups.add(anterior);
@@ -119,7 +117,8 @@ public class Cflow {
 
 		case SimplePCRETreeConstants.JJTOPTIONAL:
 
-			g.addEdge(new EdgeString("Optional"), groups.get(groups.size() - 2), anterior);
+			g.addEdge(new EdgeString("Epsilon"), anterior, seguinte);
+			g.addEdge(new EdgeString("Optional"), groups.get(groups.size() - 2), seguinte);
 
 			break;
 
@@ -144,6 +143,83 @@ public class Cflow {
 			g.addEdge(new EdgeString("Star"), anterior, groups.get(groups.size() - 2));
 			g.addEdge(new EdgeString("Epsilon"), groups.get(groups.size() - 2), seguinte);
 			g.addEdge(new EdgeString("Epsilon"), anterior, seguinte);
+
+			break;
+
+		case SimplePCRETreeConstants.JJTCOUNT:
+			SimpleNode n = (SimpleNode) actual.jjtGetChild(0);
+			parseNode(g, anterior, seguinte, n);
+
+			break;
+
+		case SimplePCRETreeConstants.JJTRANGE:
+
+			Collection<EdgeString> cRange = g.getInEdges(anterior);
+
+			Iterator<EdgeString> itrRange = cRange.iterator();
+			EdgeString lastElementRange = itrRange.next();
+			while (itrRange.hasNext()) {
+				lastElementRange = itrRange.next();
+			}
+			String edgeNameRange = lastElementRange.getValue();
+
+			Object obj = actual.jjtGetValue();
+
+			if (obj instanceof ElementCounterExact) {
+				ElementCounterExact exact = (ElementCounterExact) obj;
+
+				for (int i = 0; i < exact.getValue() - 1; i++) {
+					g.addEdge(new EdgeString(edgeNameRange), anterior, seguinte);
+
+					g.addVertex((Integer) vIndex++);
+					anterior = seguinte;
+					seguinte = vIndex - 1;
+				}
+
+				g.addEdge(new EdgeString("Epsilon"), anterior, seguinte);
+
+			} else if (obj instanceof ElementCounterMinimum) {
+				ElementCounterMinimum minimum = (ElementCounterMinimum) obj;
+
+				for (int i = 0; i < minimum.getValue() - 1; i++) {
+					g.addEdge(new EdgeString(edgeNameRange), anterior, seguinte);
+
+					g.addVertex((Integer) vIndex++);
+					anterior = seguinte;
+					seguinte = vIndex - 1;
+				}
+
+				g.addEdge(new EdgeString("ECM: " + edgeNameRange), anterior, anterior);
+
+				g.addEdge(new EdgeString("Epsilon"), anterior, seguinte);
+
+			} else if (obj instanceof ElementCounterRange) {
+				ElementCounterRange range = (ElementCounterRange) obj;
+				
+				int lower = range.getLower();
+				int upper = range.getUpper();
+				
+				for (int i = 0; i <  lower - 1; i++) {
+					g.addEdge(new EdgeString(edgeNameRange), anterior, seguinte);
+
+					g.addVertex((Integer) vIndex++);
+					anterior = seguinte;
+					seguinte = vIndex - 1;
+				}
+				
+				int endRange = seguinte + (upper - lower);
+				
+				for (int i = 0; i < (upper - lower); i++) {
+					g.addEdge(new EdgeString(edgeNameRange), anterior, seguinte);
+					g.addEdge(new EdgeString("Epsilon"), anterior, endRange);
+
+					g.addVertex((Integer) vIndex++);
+					anterior = seguinte;
+					seguinte = vIndex - 1;
+				}
+				
+				g.addEdge(new EdgeString("Epsilon"), anterior, seguinte);
+			}
 
 			break;
 		}
