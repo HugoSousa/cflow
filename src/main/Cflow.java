@@ -36,10 +36,10 @@ public class Cflow {
 		 * new SimplePCRE( new
 		 * ByteArrayInputStream("\"a\"|\"b\"\"c\"\n".getBytes()));
 		 */
-		new SimplePCRE(System.in);
+
 		SimpleNode abstractSyntaxTree = null;
 		try {
-			abstractSyntaxTree = SimplePCRE.Start();
+			abstractSyntaxTree = (new SimplePCRE(System.in)).Start();
 			abstractSyntaxTree.dump("");
 			System.out.println("Thank you.");
 		} catch (Exception e) {
