@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Dimension;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 
@@ -12,20 +13,21 @@ import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
 
 public class NFAView {
-	Graph<Integer, EdgeString> graph;
+	static Graph<Integer, EdgeString> graph;
 
 	public NFAView(Graph<Integer, EdgeString> g) {
 		this.graph = g;
-
 	}
 
 	public static void main(String[] args) {
 		Cflow cflow = new Cflow();
 
-		NFAView graph = new NFAView(cflow.getGraph());
-
+		NFAView graphView = new NFAView(cflow.getGraph());
+		
+		NFAInterpreter interpreter = new NFAInterpreter(graph);
+		
 		Layout<Integer, EdgeString> layout = new CircleLayout<Integer, EdgeString>(
-				graph.graph);
+				graphView.graph);
 		layout.setSize(new Dimension(300, 300));
 
 		BasicVisualizationServer<Integer, EdgeString> vv = new BasicVisualizationServer<Integer, EdgeString>(
@@ -36,7 +38,6 @@ public class NFAView {
 
 					@Override
 					public String transform(EdgeString arg0) {
-						// TODO Auto-generated method stub
 						return arg0.getValue();
 					}
 				});
@@ -46,5 +47,21 @@ public class NFAView {
 		frame.getContentPane().add(vv);
 		frame.pack();
 		frame.setVisible(true);
+		
+		System.out.println(interpreter.getActualStates());
+		
+		while(true){
+			Scanner reader = new Scanner(System.in);
+			System.out.print("Waiting: ");
+			String a = reader.next();
+			System.out.println(a);
+			interpreter.next(a);
+			
+			System.out.println(interpreter.getActualStates());
+			
+			if(interpreter.getActualStates().contains(NFAInterpreter.FINAL_INDEX))
+				System.out.println("CHEGOU ESTADO FINAL");
+		}
+		
 	}
 }

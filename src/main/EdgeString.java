@@ -14,4 +14,8 @@ public class EdgeString {
 	public void setValue(String value) {
 		this.value = value;
 	}
+	
+	public boolean equals(Object o){
+		return this.value == ((EdgeString)o).getValue();
+	}
 }
