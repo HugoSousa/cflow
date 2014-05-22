@@ -1,9 +1,9 @@
-package main;
+package utils;
 
-public class EdgeString {
+public class GraphEdge {
 	private String value;
 
-	public EdgeString(String value) {
+	public GraphEdge(String value) {
 		this.setValue(value);
 	}
 
@@ -13,9 +13,5 @@ public class EdgeString {
 
 	public void setValue(String value) {
 		this.value = value;
-	}
-	
-	public boolean equals(Object o){
-		return this.value == ((EdgeString)o).getValue();
 	}
 }
