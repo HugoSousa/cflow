@@ -23,6 +23,7 @@ public class GraphView {
 
 	public static void main(String[] args) {
 		Cflow cflow = new Cflow();
+		cflow.init();
 
 		GraphView graph = new GraphView(cflow.getGraph());
 

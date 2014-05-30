@@ -1,23 +1,25 @@
 package main;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import parser.SimpleNode;
 import parser.SimplePCRE;
 import utils.GraphEdge;
+import utils.GraphNode;
 import utils.NFA;
 import utils.NFAtoDFA;
-import utils.GraphNode;
 import edu.uci.ics.jung.graph.Graph;
 
 public class Cflow {
 	
 	Graph<GraphNode, GraphEdge> graph;
+	private String regex;
 
 	public Cflow() {
-		this.graph = generateGraph();
 		
-		//DFAInterpreter interpreter = new DFAInterpreter(graph);
-
 	}
+
 
 	private Graph<GraphNode, GraphEdge> generateGraph() {
 
@@ -33,9 +35,12 @@ public class Cflow {
 	}
 
 	private SimpleNode getAst() {
-		System.out.print("Enter PCRE: ");
-
-		new SimplePCRE(System.in);
+		if (regex == null) {
+			System.out.print("Enter PCRE: ");
+			new SimplePCRE(System.in);
+		}
+		else new SimplePCRE((InputStream) new ByteArrayInputStream(regex.getBytes()));
+		
 		SimpleNode abstractSyntaxTree = null;
 		try {
 			abstractSyntaxTree = SimplePCRE.Start();
@@ -52,5 +57,24 @@ public class Cflow {
 		return graph;
 		
 	}
+
+	public void init() {
+		this.graph = generateGraph();
+		
+		//DFAInterpreter interpreter = new DFAInterpreter(graph);
+	}
+	
+	public void init(String regex) {
+		this.regex = regex;
+		this.graph = generateGraph();
+		
+		//DFAInterpreter interpreter = new DFAInterpreter(graph);
+	}
+
+
+	public void next(String transition) {
+		// TODO transicao no automato		
+	}
+
 
 }
