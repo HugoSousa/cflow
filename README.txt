@@ -14,16 +14,23 @@ Caso especifico:
 
 :projeto
         :cflow.jar
+	:bin 
+		:snippet
+			:ExampleProgram.java
 	:src
-    	    :snippet
-	           :ExampleProgram.java
+    	    	:snippet
+	           	:ExampleProgram.java
+	:cflow
+		:src
+			:snippet
+				:ExampleProgram.java
      
 
-C:\...\projeto> java -jar src -o src_cflow
+
+
+C:\...\projeto> java -jar run.jar src [-o src_cflow]
 
 C:\...\projeto> javac -cp "run.jar" src_cflow\snippet\ExampleProgram.java
 
-C:\...\projeto> cd src_cflow
-
-C:\...\projeto> java -cp ".;..\run.jar" snippet.ExampleProgram
+C:\...\projeto> java -cp "src_cflow;run.jar" snippet.ExampleProgram
 
