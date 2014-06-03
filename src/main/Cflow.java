@@ -78,11 +78,13 @@ public class Cflow {
 	}
 
 
-	public void next(String transition) {
-		boolean result;
-		 result = interpreter.next(transition);
-		System.out.println("Transition: " + transition + " Result: " + result);
-	
+	public boolean next(String transition) {
+		 return interpreter.next(transition);	
+	}
+
+
+	public boolean isFinal() {
+		return interpreter.isFinal();
 	}
 
 

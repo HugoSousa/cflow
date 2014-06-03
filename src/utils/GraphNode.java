@@ -2,7 +2,7 @@ package utils;
 
 public class GraphNode {
 	int id;
-	boolean isFinal;
+	private boolean isFinal;
 	
 	public GraphNode(int id, boolean isFinal){
 		this.id = id;
@@ -17,6 +17,10 @@ public class GraphNode {
 		return id;
 	}
 
+	public void setFinal(boolean isFinal) {
+		this.isFinal = isFinal;
+	}
+	
 	@Override
     public boolean equals(Object obj) {
 	    return id == ((GraphNode)obj).getId();

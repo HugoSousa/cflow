@@ -3,8 +3,9 @@ package main;
 public class ExampleProgram {
 
 	public ExampleProgram() {
-		//@cflow step "a"
+		//@cflow step a
 		Interface.next("a");
+		//@cflow step b
 		Interface.next("b");
 	}
 

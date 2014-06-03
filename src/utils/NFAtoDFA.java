@@ -184,7 +184,7 @@ public class NFAtoDFA {
 			}
 
 			if (!vertex.containsKey(dest)) {
-				nodes.add(new GraphNode(vertexCount, source.contains(0)));
+				nodes.add(new GraphNode(vertexCount, dest.contains(0)));
 				g.addVertex(nodes.get(nodes.indexOf(new GraphNode(vertexCount,false))));
 				vertex.put(dest, vertexCount);
 				vertexCount++;

@@ -8,7 +8,7 @@ import utils.GraphNode;
 import edu.uci.ics.jung.graph.Graph;
 
 public class DFAInterpreter {
-	final static Integer ROOT_INDEX = 1;
+	final static Integer ROOT_INDEX = 0;
 	private Graph<GraphNode, GraphEdge> graph;
 	private GraphNode actualNode;
 
@@ -23,7 +23,8 @@ public class DFAInterpreter {
 	public boolean next(String ident) {
 
 		Collection<GraphEdge> outEdges = graph.getOutEdges(actualNode);
-		Iterator<GraphEdge> edgesIterator = outEdges.iterator();
+	
+		Iterator<GraphEdge> edgesIterator = outEdges.iterator();	
 		GraphEdge edge;
 		String edgeIdent;
 
@@ -37,7 +38,11 @@ public class DFAInterpreter {
 		
 		}
 
+
 		return false;
+	
+		
+
 
 	}
 	
