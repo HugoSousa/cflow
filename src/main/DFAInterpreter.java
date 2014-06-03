@@ -3,7 +3,8 @@ package main;
 import java.util.Collection;
 import java.util.Iterator;
 
-import utils.*;
+import utils.GraphEdge;
+import utils.GraphNode;
 import edu.uci.ics.jung.graph.Graph;
 
 public class DFAInterpreter {
@@ -13,13 +14,15 @@ public class DFAInterpreter {
 
 	public DFAInterpreter(Graph<GraphNode, GraphEdge> g) {
 		this.graph = g;
-		actualNode = new GraphNode(ROOT_INDEX, false);
+		
+		for (GraphNode gn : g.getVertices()) {
+			if (gn.getId() == ROOT_INDEX) actualNode = gn;
+		}
 	}
 
 	public boolean next(String ident) {
 
 		Collection<GraphEdge> outEdges = graph.getOutEdges(actualNode);
-
 		Iterator<GraphEdge> edgesIterator = outEdges.iterator();
 		GraphEdge edge;
 		String edgeIdent;

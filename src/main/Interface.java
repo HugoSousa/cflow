@@ -19,13 +19,14 @@ public class Interface {
 	public static void init(String regex) {
 		Interface i = getInterface();
 		
-		i.cflow.init(regex);// TODO nao testado
+		
+		i.cflow.init(regex);
 	}
 	
 	public static void next(String transition) {
 		Interface i = getInterface();
 		
-		i.cflow.next(transition);// TODO nao testado
+		i.cflow.next(transition);
 	}
 	
 	

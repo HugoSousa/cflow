@@ -15,7 +15,9 @@ public class Cflow {
 	
 	Graph<GraphNode, GraphEdge> graph;
 	private String regex;
-
+	private DFAInterpreter interpreter;
+	
+	
 	public Cflow() {
 		
 	}
@@ -35,15 +37,19 @@ public class Cflow {
 	}
 
 	private SimpleNode getAst() {
+		SimplePCRE pcre = null;
+		
 		if (regex == null) {
 			System.out.print("Enter PCRE: ");
-			new SimplePCRE(System.in);
+			pcre = new SimplePCRE(System.in);
 		}
-		else new SimplePCRE((InputStream) new ByteArrayInputStream(regex.getBytes()));
+		else {
+			pcre = new SimplePCRE((InputStream) new ByteArrayInputStream(regex.getBytes()));
+		}
 		
 		SimpleNode abstractSyntaxTree = null;
 		try {
-			abstractSyntaxTree = SimplePCRE.Start();
+			abstractSyntaxTree = pcre.Start();
 			abstractSyntaxTree.dump("");
 			System.out.println("Thank you.");
 		} catch (Exception e) {
@@ -61,19 +67,22 @@ public class Cflow {
 	public void init() {
 		this.graph = generateGraph();
 		
-		//DFAInterpreter interpreter = new DFAInterpreter(graph);
+		interpreter = new DFAInterpreter(graph);
 	}
 	
 	public void init(String regex) {
 		this.regex = regex;
 		this.graph = generateGraph();
 		
-		//DFAInterpreter interpreter = new DFAInterpreter(graph);
+		 interpreter = new DFAInterpreter(graph);
 	}
 
 
 	public void next(String transition) {
-		// TODO transicao no automato		
+		boolean result;
+		 result = interpreter.next(transition);
+		System.out.println("Transition: " + transition + " Result: " + result);
+	
 	}
 
 
