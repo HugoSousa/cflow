@@ -2,7 +2,7 @@ package main;
 
 public class Interface {
 	private static Interface instance;
-	private static boolean debug = true;
+	private static boolean debug = false;
 	private Cflow cflow;
 	private boolean error;
 	private boolean finish;
@@ -37,7 +37,7 @@ public class Interface {
 		Interface i = getInterface();
 		if (!i.error && !i.finish){
 			boolean result = i.cflow.next(transition);
-			if (debug) System.out.println("Transition: " + transition + " Result: " + result);
+			if (debug || !result) System.out.println("Transition: " + transition + " Result: " + result);
 			if (!result) i.error = true;
 		}
 	}

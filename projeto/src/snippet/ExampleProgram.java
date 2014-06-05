@@ -3,11 +3,11 @@ package snippet;
 public class ExampleProgram {
 
 	public ExampleProgram() {
-		//@cflow  a
-		//@cflow  @finish
-        		//@cflow @debug    
+		//@cflow  test 
+		//@cflow  findfa 
+        //@cflow @debug      
 
-		//@cflow shouldnotfail
+		//@cflow afaddaf
 		//@cflow start "b"*
 		//@cflow b
 
@@ -15,10 +15,10 @@ public class ExampleProgram {
 	}
 
 	public static void main(String[] args) {
-		//@cflow start "a"*
+		//@cflow start "test"*
 		
 		ExampleProgram e = new ExampleProgram();
-		//@cflow @finish
+		//@cflow pila 
 
 
 	}

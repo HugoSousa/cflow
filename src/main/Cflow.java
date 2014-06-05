@@ -31,9 +31,26 @@ public class Cflow {
 		Graph<Integer, GraphEdge> graphNFA = nfa.generate(getAst());
 		Graph<GraphNode, GraphEdge> graphDFA = dfa.convert(graphNFA);
 
-		dfa.printDFA();
+		//dfa.printDFA();
 
 		return graphDFA;
+	}
+	
+	public static void  checkValidRegex(String regex) {
+		SimplePCRE pcre = null;
+
+			pcre = new SimplePCRE((InputStream) new ByteArrayInputStream((regex + "\n").getBytes()));
+
+		@SuppressWarnings("unused")
+		SimpleNode abstractSyntaxTree = null;
+		try {
+			abstractSyntaxTree = pcre.Start();
+			//abstractSyntaxTree.dump("");
+
+		} catch (Exception e) {
+			System.out.println("Your regex <"+ regex +"> is invalid. Try to fix it!");
+			System.exit(-1);
+		}
 	}
 
 	private SimpleNode getAst() {
@@ -50,13 +67,13 @@ public class Cflow {
 		SimpleNode abstractSyntaxTree = null;
 		try {
 			abstractSyntaxTree = pcre.Start();
-			abstractSyntaxTree.dump("");
-			System.out.println("Thank you.");
+			//abstractSyntaxTree.dump("");
+			//System.out.println("Thank you.");
 		} catch (Exception e) {
 			/*System.out.println("Oops.");
 			System.out.println(e.getMessage());*/
 			System.out.println("Your regex must be wrong. Try to fix it!");
-			System.exit(1);
+			System.exit(-1);
 		}
 		return abstractSyntaxTree;
 	}

@@ -19,7 +19,8 @@ public class SimplePCRE/*@bgen(jjtree)*/implements SimplePCRETreeConstants, Simp
     }
   }
 
-  final public SimpleNode Start() throws ParseException {
+  @SuppressWarnings("unused")
+final public SimpleNode Start() throws ParseException {
                          /*@bgen(jjtree) Re */
   SimpleNode jjtn000 = new SimpleNode(JJTRE);
   boolean jjtc000 = true;
@@ -58,7 +59,8 @@ public class SimplePCRE/*@bgen(jjtree)*/implements SimplePCRETreeConstants, Simp
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
     try {
-  boolean isUnion = false;
+  @SuppressWarnings("unused")
+boolean isUnion = false;
       BasicRe();
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case UNION:

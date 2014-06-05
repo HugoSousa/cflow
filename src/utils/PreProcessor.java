@@ -13,6 +13,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import main.Cflow;
+import main.GraphView;
+
 public class PreProcessor {
 
 	private File cflowFolder;
@@ -22,30 +25,39 @@ public class PreProcessor {
 	private String debugString = "Interface.debug();";
 
 	private String startString = "Interface.init";
+	private final String regexIdentifier = "^[a-zA-Z][a-zA-Z0-9]*$";
 	private final String regexString = "//@cflow [\\s]*[a-zA-Z0-9]*[\\s]*";
 	private final String regexFinishString = "//@cflow [\\s]*@finish[\\s]*";
 	private final String regexDebugString = "//@cflow [\\s]*@debug[\\s]*";
 
 	private final String regexStartString = "//@cflow start .*";
 	Pattern regex = Pattern.compile(regexString);
+	Pattern regexId = Pattern.compile(regexIdentifier);
+
 	Pattern regexStart = Pattern.compile(regexStartString);
-	private String folder;
 
 
 	public static void main(String[] args){
 		
-
-		PreProcessor p1 = new PreProcessor("src");			
-
-		
-		if (args.length == 0) System.out.println("Missing Argument: Please specify the folder you want to apply cflow to (src folder).");
-		else {
-			PreProcessor p = new PreProcessor(args[0]);			
+		if (args.length == 0) {
+			System.out.println("Missing Argumens, usage:\njava -jar cflow.jar <Source_Folder_to_preprocess> \njava -jar cflow.jar -dfa\n\n Use last option to generate DFA from PCRE");
+			System.exit(-1);
 		}
+		else {
+			if (args[0].equals("-dfa")) {
+				GraphView.start_dfa_view();
+			}
+			else {
+				new PreProcessor(args[0]);		
+				System.out.println("Pre processing finished.");
+				System.exit(0);
+			}
+		}
+		
+		
 	}
 
 	public PreProcessor(String folder){
-		this.folder = folder;
 		
 		createTempFolder(folder);
 		scanFiles(folder);
@@ -168,14 +180,15 @@ public class PreProcessor {
 			
 			Matcher matcher = regexStart.matcher(line);
 			if(matcher.find()){
-				System.out.println("Encontrei cflow start");
-				System.out.println("LINE: " + line);
+				//System.out.println("Encontrei cflow start");
+				//System.out.println("LINE: " + line);
 				
 				int indexOfCflow = line.indexOf("//@cflow start");
 				String name = line.substring(indexOfCflow + 15);
-				System.out.println("name1:" + name);
+				//System.out.println("name1:" + name);
+				Cflow.checkValidRegex(name.trim());
 				name = name.replaceAll("\\\"", "\\\\\\\\\"");
-				System.out.println("name2:" + name);
+				//System.out.println("name2:" + name);
 
 				String funcString = startString + "(\""; 
 				funcString += name;
@@ -196,9 +209,13 @@ public class PreProcessor {
 					//System.out.println("Encontrei cflow");
 					int indexOfCflow = line.indexOf("//@cflow");
 					String name = line.substring(indexOfCflow + 9);
-					
-					System.out.println("FIND CFLOW:" + name);
-	
+
+					//System.out.println("FIND CFLOW:" + name);
+					Matcher matcherId = regexId.matcher(name.trim());
+				    if (!matcherId.find() && !name.trim().equals("@finish") &&  !name.trim().equals("@debug")) {
+				    	System.out.println("Invalid identifier: " + name.trim());
+				    	System.exit(-1);
+				    }
 					
 					String funcString = functionString + "(\""; 
 					funcString += name.trim();
@@ -243,47 +260,4 @@ public class PreProcessor {
 	}
 
 
-	/*
-	public void execute() throws IOException{
-
-		for(String file: files){
-			String outputFile = new String();
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			String line;
-			int i = 0;
-			while ((line = br.readLine()) != null) {
-
-				Matcher matcher = regex.matcher(line);
-				if(matcher.find()){
-					System.out.println("Encontrei cflow");
-					int indexOfCflow = line.indexOf("//@cflow");
-					String name = line.substring(indexOfCflow + 9);
-					System.out.println(name);
-
-					String funcString = "functionName("; 
-					funcString += name;
-					funcString += ");\n";
-
-					//System.out.println("OLD LINE: " + line);
-
-					line = line.replaceAll(regexString, funcString);
-
-					//System.out.println("NEW LINE: " + line);
-				}
-
-				line += "\n";
-				outputFile += line; 
-			}
-			br.close();
-
-
-			File file2 = new File(file);
-			FileWriter fileWriter = new FileWriter(file2, false); // true to append
-			// false to overwrite.
-			fileWriter.write(outputFile);
-			fileWriter.close();
-			//System.out.println(outputFile);
-		}
-	}
-	 */
 }

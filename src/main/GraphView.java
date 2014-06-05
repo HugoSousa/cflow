@@ -22,6 +22,10 @@ public class GraphView {
 	}
 
 	public static void main(String[] args) {
+		start_dfa_view();
+	}
+
+	public static void start_dfa_view() {
 		Cflow cflow = new Cflow();
 		cflow.init();
 
