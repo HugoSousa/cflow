@@ -1,1 +1,1 @@
-cflow src main\ExampleProgram.java main.ExampleProgram
+cflow src main.ExampleProgram

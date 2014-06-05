@@ -3,7 +3,7 @@ Correr o exemplo:
 
 >example1
 
->cflow src main\ExampleProgram.java main.ExampleProgram
+>cflow src main.ExampleProgram
 
 > java -jar cflow.jar src 
 > javac -cp "cflow.jar" cflow\main\ExampleProgram.java 
