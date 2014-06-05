@@ -53,8 +53,10 @@ public class Cflow {
 			abstractSyntaxTree.dump("");
 			System.out.println("Thank you.");
 		} catch (Exception e) {
-			System.out.println("Oops.");
-			System.out.println(e.getMessage());
+			/*System.out.println("Oops.");
+			System.out.println(e.getMessage());*/
+			System.out.println("Your regex must be wrong. Try to fix it!");
+			System.exit(1);
 		}
 		return abstractSyntaxTree;
 	}

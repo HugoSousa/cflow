@@ -27,11 +27,24 @@ public class DFAInterpreter {
 		Iterator<GraphEdge> edgesIterator = outEdges.iterator();	
 		GraphEdge edge;
 		String edgeIdent;
+		String any = "Any";
 
 		while (edgesIterator.hasNext()) {
 			edge = edgesIterator.next();
 			edgeIdent = edge.getValue();
 			if(edgeIdent.equals(ident)){
+				actualNode = graph.getDest(edge);
+				return true;
+			}
+		
+		}
+		
+		edgesIterator = outEdges.iterator();	
+		
+		while (edgesIterator.hasNext()) {
+			edge = edgesIterator.next();
+			edgeIdent = edge.getValue();
+			if(edgeIdent.equals(any)){
 				actualNode = graph.getDest(edge);
 				return true;
 			}

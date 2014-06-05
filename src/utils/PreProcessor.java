@@ -10,8 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,8 +18,14 @@ public class PreProcessor {
 	private File cflowFolder;
 	private String importString = "import main.Interface;";
 	private String functionString = "Interface.next";
+	private String finishString = "Interface.checkFinish();";
+	private String debugString = "Interface.debug();";
+
 	private String startString = "Interface.init";
-	private final String regexString = "//@cflow [a-zA-Z0-9]*";
+	private final String regexString = "//@cflow [\\s]*[a-zA-Z0-9]*[\\s]*";
+	private final String regexFinishString = "//@cflow [\\s]*@finish[\\s]*";
+	private final String regexDebugString = "//@cflow [\\s]*@debug[\\s]*";
+
 	private final String regexStartString = "//@cflow start .*";
 	Pattern regex = Pattern.compile(regexString);
 	Pattern regexStart = Pattern.compile(regexStartString);
@@ -29,14 +33,15 @@ public class PreProcessor {
 
 
 	public static void main(String[] args){
-		/*
-		System.out.println("Whats the folder you want to process to control the flow?");
-		Scanner scan = new Scanner(System.in);
-		String folder = scan.next();
-		scan.close();
-		*/
+		
 
-		PreProcessor p = new PreProcessor(args[0]);			
+		PreProcessor p1 = new PreProcessor("src");			
+
+		
+		if (args.length == 0) System.out.println("Missing Argument: Please specify the folder you want to apply cflow to (src folder).");
+		else {
+			PreProcessor p = new PreProcessor(args[0]);			
+		}
 	}
 
 	public PreProcessor(String folder){
@@ -194,13 +199,24 @@ public class PreProcessor {
 					
 					System.out.println("FIND CFLOW:" + name);
 	
+					
 					String funcString = functionString + "(\""; 
-					funcString += name;
+					funcString += name.trim();
 					funcString += "\");";
-	
+					
+					if (name.trim().equals("@finish")) {
+						funcString = finishString;
+						line = line.replaceAll(regexFinishString, funcString);
+
+					}
+					else if (name.trim().equals("@debug")) {
+						funcString = debugString;
+						line = line.replaceAll(regexDebugString, funcString);
+					}
+					else line = line.replaceAll(regexString, funcString);
+
 					//System.out.println("OLD LINE: " + line);
 	
-					line = line.replaceAll(regexString, funcString);
 	
 					//System.out.println("NEW LINE: " + line);
 				}	

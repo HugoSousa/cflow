@@ -2,12 +2,15 @@ package main;
 
 public class Interface {
 	private static Interface instance;
+	private static boolean debug = true;
 	private Cflow cflow;
 	private boolean error;
+	private boolean finish;
 	
 	private Interface() {
 		cflow = new Cflow();
 		error = false;
+		finish = false;
 	}
 	
 	
@@ -18,7 +21,13 @@ public class Interface {
 		return instance;
 	}
 	
+	public static void restartInterface() {
+			instance = new Interface();
+	}
+	
+	
 	public static void init(String regex) {
+		restartInterface();
 		Interface i = getInterface();
 		
 		i.cflow.init(regex);
@@ -26,9 +35,9 @@ public class Interface {
 	
 	public static void next(String transition) {
 		Interface i = getInterface();
-		if (!i.error){
+		if (!i.error && !i.finish){
 			boolean result = i.cflow.next(transition);
-			System.out.println("Transition: " + transition + " Result: " + result);
+			if (debug) System.out.println("Transition: " + transition + " Result: " + result);
 			if (!result) i.error = true;
 		}
 	}
@@ -36,10 +45,17 @@ public class Interface {
 
 	public static void checkFinish() {
 		Interface i = getInterface();
-
-		if (i.cflow.isFinal()) 
-			System.out.println("Cflow finished successfully");
-		else System.out.println("Cflow finishing error");
+		i.finish = true;
+		
+		
+		if (i.cflow.isFinal() && !i.error) 
+			System.out.println("Cflow finished: success");
+		else System.out.println("Cflow finished: error");
+	}
+	
+	public static void debug() {
+		debug = true;
+		
 	}
 	
 	

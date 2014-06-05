@@ -3,18 +3,25 @@ package snippet;
 public class ExampleProgram {
 
 	public ExampleProgram() {
-		//@cflow a
-		//@cflow c
+		//@cflow  a
+		//@cflow  @finish
+        		//@cflow @debug    
+
+		//@cflow shouldnotfail
+		//@cflow start "b"*
 		//@cflow b
-		}
+
+
+	}
 
 	public static void main(String[] args) {
-		//@cflow start "a""b"
+		//@cflow start "a"*
 		
 		ExampleProgram e = new ExampleProgram();
+		//@cflow @finish
 
-		//@mhjychhflow @finish
-		Interface.checkFinish();
+
 	}
+
 
 }

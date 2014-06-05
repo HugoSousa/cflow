@@ -3,15 +3,23 @@ package main;
 public class ExampleProgram {
 
 	public ExampleProgram() {
-		//@cflow a
+		//@cflow  a
+		//@cflow  @finish
+		//@cflow  @debug
+
+		//@cflow shouldnotfail
+		//@cflow start "b"*
 		//@cflow b
-		System.out.println("oi?");
+
+
 	}
 
 	public static void main(String[] args) {
-		//@cflow start "a""b"*
-		
+		//@cflow start "a"*
+		//@cflow @debug
 		ExampleProgram e = new ExampleProgram();
+		//@cflow @finish
+
 
 	}
 
