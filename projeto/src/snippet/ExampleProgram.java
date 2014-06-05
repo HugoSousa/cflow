@@ -1,4 +1,4 @@
-package snippet;
+package main;
 
 public class ExampleProgram {
 
@@ -19,8 +19,6 @@ public class ExampleProgram {
 		
 		ExampleProgram e = new ExampleProgram();
 		//@cflow pila 
-
-
 	}
 
 
