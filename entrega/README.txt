@@ -87,9 +87,9 @@
 	Foram usado algoritmos já existentes na conversão de E-NFA para DFA.
 	
 **TESTSUITE AND TEST INFRASTRUCTURE:
-	Foram realizados testes unitários que incidem, essencialmente, na análise sintática. 
+	Foram realizados testes unitários JUnit que incidem, essencialmente, na análise sintática. 
 	Estes testam os elementos do sub-set da PCRE implementada pela ferramenta.
-	Esta análise é importante, pois falhando, compromete o resto da atividade da aplicação, ou seja, não é possível a transformação para NFA/DFA e consequente controlo do fluxo.
+	Esta análise é importante, pois falhando, compromete o resto da atividade da aplicação, ou seja, não é possível a transformação para NFA/DFA e consequente controlo do fluxo.	
 
 **TASK DISTRIBUTION:
 	A primeira fase de análise lexical, sintática, gramática da REGEX foi feita pelos 4 membros de igual forma, assim como a representação intermédia.

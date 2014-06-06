@@ -12,7 +12,7 @@ sendo este um cuidado que o utilizador terá de tomar aquando da execução da ferr
 Este foi um projeto realizado para outra unidade curricular, sendo um jogo de tabuleiro.
 Para executar rapidamente até finalizar, sugere-se que se vá executando a jogada "0" quando pedido o input do utilizador.
 
-
+As macros usadas localizam-se no ficheiro tui\Console.java e logic\AlphaBeta.java
 A expressão regular usada foi:
 //@cflow start ("play""show""minimax"+"move"+"switchturn""nowinner")+("play""show""minimax"+"move"+"switchturn""winner")
 
