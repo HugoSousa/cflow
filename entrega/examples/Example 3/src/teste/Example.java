@@ -10,6 +10,8 @@ public class Example{
 		if(random < 0.5){
 			//@cflow A
 			functionA();
+            functionB();
+
 		}
 		else if(random >= 0.5){
 			//@cflow B
@@ -34,7 +36,7 @@ public class Example{
 	        	//@cflow A1
 	            break;
 	        case 2:  
-	        	//@cflow A2
+	        	//@cflow A2 
 	            break;
 	        case 3:  
 	        	//@cflow A3
@@ -47,7 +49,6 @@ public class Example{
 	            break;
 	    }
 		
-		functionB();
 	}
 	
 	public static void functionB(){
