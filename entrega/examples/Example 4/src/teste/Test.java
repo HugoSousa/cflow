@@ -7,7 +7,7 @@ public class Test {
 	private ArrayList<SuperClass> array;
 	
 	public static void main(String[] args){
-		//@cflow start "create".{299}("child1"|"child2"){100}"child1array"{0,100}"child2array"*"fim"{2,}
+		//@cflow start "create".{300}("child1"|"child2"){100}"child1array"{0,100}"child2array"*"fim"{2,}
 		
 		new Test();
 		

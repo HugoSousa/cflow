@@ -79,6 +79,14 @@
 	
 	Nota: Este batch file base funciona apenas para projetos com 1 package. Para projetos com vários packages , é necessário replicar as pastas do argumento %2. 
 	É possível ver um caso semelhante a este, em que o batch file foi alterado, no example 5.
+    No caso de ser necessário compilar de outra forma é necessário correr o cflow.jar para fazer o preprocessamento e posteriormente compilar e executar a pasta 
+    gerada adicionando cflow.jar ao classpath, como é compreensivel no cflow.bat
+    Para executar a fase de processamento manualemnte o cflow.jar recebe 1 paramentro que é a pasta a ser preprocessada e todos os seus ficheiros nas suas pastas/subpastas
+    analisados. Exemplo: java -jar cflow.jar src
+    
+    Extra: para analisar em interface grafica o dfa resultante de uma expressao regular e possível correr o cflow como:
+    java -jar cflow.jar -dfa
+    Seguidamente a expressao regular pode ser fornecida pela consola. No entanto na interface não são visíveis os estados finais, mas apenas os nós e as transições.
 	
 	Os exemplos providenciados mostram exemplos de execução funcionais da ferramenta. 
 	Na fase de pré-processamento, são também verificados e tratados erros como é o caso de uso de identificadores inválidos ou de expressões regulares inválidas.
