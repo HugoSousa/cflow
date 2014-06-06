@@ -1,0 +1,129 @@
+/**
+ * JJTree template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
+ */options{  JDK_VERSION = "1.5";  static = false;}PARSER_BEGIN(SimplePCRE)package parser;
+
+public class SimplePCRE{  public static void main(String args [])  {    System.out.println("Reading from standard input...");    System.out.print("Enter an expression like \"1+(2+3)*var;\" :");    new SimplePCRE(System.in);    try    {      SimpleNode n = SimplePCRE.Start();      n.dump("");      System.out.println("Thank you.");    }    catch (Exception e)    {      System.out.println("Oops.");      System.out.println(e.getMessage());    }  }}PARSER_END(SimplePCRE)SKIP :{ " " | "\r" | "\t" }TOKEN : /* IDENTIFIERS */{
+  
+  < NUMBER : < DIGIT > ( < DIGIT >)* >
+| < IDENTIFIER :    < LETTER >    (      < LETTER >    | < DIGIT >    )* >| < LETTER : [ "a"-"z", "A"-"Z" ] >| < DIGIT : [ "0"-"9" ] >
+| < COMMA : "," >
+| < UNION : "|" >
+| < STAR : "*" >
+| < PLUS : "+" >
+| < OPTIONAL : "?" >
+| < ANY : "." >
+| < OPEN1 : "(" >
+| < CLOSE1 : ")" >
+| < OPEN2 : "{" >
+| < CLOSE2 : "}" >
+| < QUOTE : "\"" >
+| < LF: "\n" >}SimpleNode Start() #Re: {} 
+{  
+	Re()< LF >  {return jjtThis;}
+}
+void Re() #union(>1): {} 
+{
+ {boolean isUnion = false;}
+ BasicRe() ( ReTail()
+ {isUnion = true;}
+) ?
+} 
+ void ReTail()#void:  {} 
+{  
+
+	 	 (	      	  <UNION > 
+	  BasicRe()
+	 (	    ReTail())?
+	  ) 
+	  
+}
+
+ void BasicRe() #Sequence(>1):  {} 
+{  
+
+  SimpleRe()
+  BasicReTail()
+
+} 
+
+  void BasicReTail()#void: {} 
+{  
+	(
+	  
+	  SimpleRe() 
+	  BasicReTail()
+	) ?   
+}
+
+  void SimpleRe()#void : {} 
+{  
+	
+  ElementalRe()
+  SimpleReTail()
+	   
+}
+
+
+  void SimpleReTail()#void: {} 
+{  
+	(
+	  (	     
+		  <STAR > #Star
+		| < PLUS > #Plus
+		| < OPTIONAL > #Optional
+		| Count(jjtThis) #Count
+	) 
+	)?
+	   
+}
+
+  void ElementalRe()#void: {} 
+{  
+  
+	  < ANY > #Any
+	| (
+	  	< OPEN1 >
+	  	Re()
+	  	< CLOSE1 >
+	  )
+	| Identifier() 
+
+	   
+}
+
+   void Identifier() : { Token t; } 
+{
+   
+	< QUOTE >
+	t= < IDENTIFIER >	{jjtThis.value = t.image; }
+	< QUOTE >
+	  
+}
+
+   void Count(SimpleNode parent) #void: {} 
+{
+   
+	< OPEN2 >
+	Range(parent)
+	< CLOSE2 > 
+	  
+}
+
+   void Range(SimpleNode grandparent) : {Token t1 = null; Token t2 = null; } 
+{
+   {     boolean hasComma = false;   }   
+	t1 = < NUMBER > 
+	(	  < COMMA >   {hasComma = true;}
+	  (	    t2 = < NUMBER >
+	  )?
+	)? 
+	  {		if (t2 != null)		{			jjtThis.jjtSetValue(new ElementCounterRange(Integer.parseInt(t1.image),
+			Integer.parseInt(t2.image)));
+		} else if (hasComma)		{			jjtThis.jjtSetValue(new ElementCounterMinimum(Integer.parseInt(t1.image)));
+		}
+		else jjtThis.jjtSetValue(new ElementCounterExact(Integer.parseInt(t1.image)));
+		
+	  }
+	  
+}
+ 
