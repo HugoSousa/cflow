@@ -21,6 +21,7 @@ public class Example{
 
 	public static void main(String[] args) {
 		//@cflow start ( ("A"("A1"|"A2"|"A3"|"A4")+("loop"{5,6}"return"?)) | ("B""loop"{5}("loop"|"return")) )
+        //@cflow @debug
 		new Example();
 		
 		//@cflow @finish
@@ -29,7 +30,7 @@ public class Example{
 	private static void functionA(){
 		Random rand = new Random();
 
-		int  n = rand.nextInt(5);
+		int  n = rand.nextInt(5) + 1;
 		
 		switch (n) {
 	        case 1:  
