@@ -141,7 +141,9 @@ public class TokenMgrError extends Error
 
   /** Full Constructor. */
   public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
-    this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
+	  System.out.println("There was a problem parsing an identifier in your regex");
+	  System.exit(-1);
+    //this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
   }
 }
 /* JavaCC - OriginalChecksum=ba18a71440764bff9799ac2de7c1aa18 (do not edit this line) */

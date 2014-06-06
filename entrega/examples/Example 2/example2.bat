@@ -1,1 +1,1 @@
-cflow src logic.Super
+cflow src logic\*.java logic.Super

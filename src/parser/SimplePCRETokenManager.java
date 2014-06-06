@@ -301,7 +301,9 @@ public Token getNextToken()
       input_stream.backup(1);
       error_after = curPos <= 1 ? "" : input_stream.GetImage();
    }
-   throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
+   //throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
+   System.out.println("Error parsing an identifier in your regex.");
+   System.exit(-1);
   }
 }
 
